@@ -1,6 +1,6 @@
 var _ = require('lodash');
-var lusitania = require('../../index.js');
 var async = require('async');
+var lusitania = require('../../index.js');
 
 // Test a rule given a deliberate example and nonexample
 // Test WITH and WITHOUT callback

@@ -2,8 +2,6 @@ var _ = require('lodash');
 var lusitania = require('../index.js');
 var testType = require('./util/testType.js');
 
-
-
 describe('basic rules', function() {
 
 	it('should create an lusitania object in naive usage',function () {

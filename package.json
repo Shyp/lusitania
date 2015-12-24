@@ -31,11 +31,12 @@
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
-    "validator": "~3.22.0",
-    "lodash": "~2.4.1"
+    "lodash": "~2.4.1",
+    "validator": "~3.22.0"
   },
   "devDependencies": {
     "async": "~0.2.10",
-    "mocha": "^2"
+    "mocha": "^2",
+    "should": "^8"
   }
 }
