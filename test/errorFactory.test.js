@@ -8,8 +8,7 @@ describe('error messages', function() {
     }, {
       validation: 'foo'
     });
-    result.length.should.equal(1);
-    result[0].message.should.equal('`foo` should be a number (instead of null)');
+    result.message.should.equal('`foo` should be a number (instead of null)');
   });
 
   it('other type errors should be readable', function() {
@@ -18,15 +17,13 @@ describe('error messages', function() {
     }, {
       validation: 'foo'
     });
-    result.length.should.equal(1);
-    result[0].message.should.equal('`foo` should be a number (instead of "blah", which is a string)');
+    result.message.should.equal('`foo` should be a number (instead of "blah", which is a string)');
   });
 
   it('calls it a field if no validation is defined', function() {
     var result = lusitania('blah').to({
       type: 'number',
     }, { });
-    result.length.should.equal(1);
-    result[0].message.should.equal('`field` should be a number (instead of "blah", which is a string)');
+    result.message.should.equal('`field` should be a number (instead of "blah", which is a string)');
   });
 });

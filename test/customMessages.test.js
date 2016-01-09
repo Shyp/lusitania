@@ -1,19 +1,20 @@
-var _ = require('lodash');
-var lusitania = require('../index.js');
-var testType = require('./util/testType.js');
 var assert = require('assert');
 
+var _ = require('lodash');
+require('should');
+
+var lusitania = require('../index.js');
+var testType = require('./util/testType.js');
 
 describe('custom validation messages ($message syntax)', function() {
 
   it(' should use custom validation message when `$message` is a string', function() {
 
-    var errors = lusitania({
+    var error = lusitania({
       name: 'Sebastian',
       id: '235',
       friends: 'd'
-    })
-    .to({
+    }).to({
       type: {
         name: {
           $validate: {
@@ -49,21 +50,13 @@ describe('custom validation messages ($message syntax)', function() {
       }
     });
 
-    var ok = _.all(errors, function (err) {
-      switch(err.property) {
-        case 'name': return err.message === 'oops0';
-        case 'id': return err.message === 'oops1';
-        case 'friends': return err.message === 'oops2';
-        case 'moreFriends': return err.message === 'oops3';
-
-        // Check for proper usage error:
-        case 'foo': return err.status === 500 && err.code === 'E_USAGE' && err.$message === 'oops4';
-        default: return false;
-      }
+    error.message.should.equal('oops2');
+    error.should.have.properties({
+      message: 'oops2',
+      data: 'd',
+      property: 'friends',
+      actualType: 'string',
     });
-
-    assert(ok, 'Failed to use the specified custom validation message(s)');
-
   });
 
 });

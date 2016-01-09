@@ -23,16 +23,11 @@ module.exports = function testType (rule, example, nonexample) {
 	if (exampleOutcome) {
 		return gotErrors(exampleOutcome);
 	}
-	if (!_.isArray(nonexampleOutcome)) {
-		return gotErrors('Invalid input (' + nonexample + ') allowed through as a ' + rule + '.');
+	if (!(nonexampleOutcome instanceof Error)) {
+		return gotErrors('Invalid input (' + JSON.stringify(nonexample) + ') allowed through as a ' + JSON.stringify(rule) + '.');
 	}
 
 	function gotErrors (err) {
-		console.error('*****************');
-		console.error('err', err);
-		console.error('nonexampleOutcome', nonexampleOutcome);
-		console.error('nonexample', nonexample);
-		console.error('rule', rule);
 		throw new Error(err);
 	}
 };

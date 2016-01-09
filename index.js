@@ -40,8 +40,7 @@ Lusitania.prototype.rules = require('./lib/match/rules');
 
 Lusitania.prototype.to = function (ruleset, context) {
 
-  var errors = [];
-
+  var error = false;
   // If ruleset doesn't contain any explicit rule keys,
   // assume that this is a type
 
@@ -54,32 +53,32 @@ Lusitania.prototype.to = function (ruleset, context) {
   // Look for explicit rules
   for (var rule in ruleset) {
 
+    var result;
     if (rule === 'type') {
 
       // Use deep match to descend into the collection and verify each item and/or key
       // Stop at default maxDepth (50) to prevent infinite loops in self-associations
-      errors = errors.concat(Lusitania.match.type.call(context, this.data, ruleset.type, null, validation));
+      result = Lusitania.match.type.call(context, this.data, ruleset.type, null, validation);
+      if (result) {
+        error = result;
+        break;
+      }
     }
 
     // Validate a non-type rule
     else {
-      errors = errors.concat(Lusitania.match.rule.call(context, this.data, rule, ruleset[rule]));
+      result = Lusitania.match.rule.call(context, this.data, rule, ruleset[rule]);
+      if (result) {
+        error = result;
+        break;
+      }
     }
   }
 
-  // If errors exist, return the list of them
-  if (errors.length) {
-    return errors;
-  }
-
-  // No errors, so return false
-  else return false;
+  return error;
 
 };
 Lusitania.prototype.hasErrors = Lusitania.prototype.to;
-
-
-
 
 
 /**
@@ -107,7 +106,7 @@ coerceValues: function () {}
 }
 *
 * Adapter developers would be able to use Lusitania.prototype.cast()
-* to declaritively define these type coercions.
+* to declaratively define these type coercions.
 
 * Down the line, we could take this further for an even nicer API,
 * but for now, this alone would be a nice improvement.
