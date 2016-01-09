@@ -1,6 +1,6 @@
 {
   "name": "lusitania",
-  "version": "0.10.2",
+  "version": "1.0.0",
   "description": "Recursive validation library with support for objects and lists",
   "homepage": "https://api.shyp.com",
   "keywords": [
