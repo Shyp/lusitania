@@ -1,8 +1,7 @@
-anchor
-======
+Lusitania
+=========
 
-Anchor is a javascript library that lets you define strict types.
-<!-- err todo: It also helps you validate and normalize the usage of command line scripts and even individual functions. -->
+Lusitania is a javascript library that lets you define strict types.
 
 This makes it really useful for things like:
 + Form validation on the client or server
@@ -12,20 +11,15 @@ This makes it really useful for things like:
 + Normalizing polymorphic behaviors
 
 Adds support for strongly typed arguments, like http://lea.verou.me/2011/05/strongly-typed-javascript/, but goes a step further by adding support for array and object sub-validation.
-It's also the core validation library for the Sails ecosystem. 
+It's also the core validation library for the Sails ecosystem.
 
 (Built on top of the great work with https://github.com/chriso/validator.js)
 
 ## Installation
 
-### Client-side
-```html
-<script type='text/javscript' src="/js/anchor.js"></script>
-```
-
 ### node.js
 ```bash
-npm install anchor
+npm install lusitania@git://github.com/Shyp/lusitania.git#master
 ```
 
 <!--
@@ -137,13 +131,13 @@ anchor(userData).to({
   email: 'email',
   twitterHandle: 'twitter',
   homepage: 'url',
-  
+
   // This requires any data
   someData: {},
-  
+
   // This will require a list of >=0 hex colors
   favoriteColors: ['htmlcolor'],
-  
+
   // This will require a list of >=0 badge objects, as defined:
   badges: [{
     name: 'string',
@@ -188,7 +182,7 @@ $.get = anchor($.get).usage(
 
 ### Multiple usages and Argument normalization
 
-But sometimes you want to support several different argument structures.  
+But sometimes you want to support several different argument structures.
 And to do that, you have to, either explicitly or implicitly, name those arguments so your function can know which one was which, irrespective of how the arguments are specified.
 Here's how you specify multiple usages:
 
@@ -204,20 +198,20 @@ var getById = anchor(
       id: args.id
     }, args.done);
   })
-  
-  // Here you can define your named arguments as temporal custom data types, 
+
+  // Here you can define your named arguments as temporal custom data types,
   // each with their OWN validation rules
   .args({
     endpoint: 'urlish',
     id: 'int'
     done: 'function'
   })
-  
+
   // To pass valiation, the user arguments must match at least one of the usages below
   // and each argument must pass its validation definition above
   .usage(
     ['endpoint', 'id', 'done'],
-    
+
     // Callback is optional
     ['endpoint', 'id']
   );
@@ -264,7 +258,7 @@ anchor(myFunction)
     options: {}
   })
   .defaults({
-    
+
   }),
   .usage(
     ['id'],
@@ -295,27 +289,27 @@ function createUser (req,res,next) {
     id: 'int',
     name: 'string'
   });
-  
-  
+
+
   // Do stuff here
-  // This could be anything-- we chose to demonstrate a create method 
+  // This could be anything-- we chose to demonstrate a create method
   // in this case from our favorite ORM, Waterline (http://github.com/mikermcneil/waterline)
    async.auto([
-        
+
       // Create the user itself
       user: User.create(params).done,
-      
+
       // Grant permission for the user to administer itself
       permission: Permission.create({
         targetModel : 'user',
         targetId    : params.id,
         UserId      : params.id,
       }).done
-      
+
     ], function (err, results) {
-    
+
       // Just basic usage, but this prevents you from dealing with non-existent values and null pointers
-      // both when providing a consistent API on the server-side 
+      // both when providing a consistent API on the server-side
       // AND when marshalling server-sent data on the client-side
       // i.e. this sucks: user.friends && user.friends.length && user.friends[0] && user.friends[0].id
       var user = res.anchor(results.user).to({
@@ -328,10 +322,10 @@ function createUser (req,res,next) {
           email: 'string'
         }]
       });
-      
+
       // Respond with JSON
-      // Could just pass the user object, 
-      // but in this case we're demonstrating a custom mapping 
+      // Could just pass the user object,
+      // but in this case we're demonstrating a custom mapping
       // (like you might use to implement a custom, predefined API)
       // You can safely know all the .'s you're using won't result in any errors, since you validated this above
       res.json({
@@ -341,7 +335,7 @@ function createUser (req,res,next) {
         friends           : user.friends
       });
   });
-  
+
 }
 ```
 
@@ -358,13 +352,13 @@ Here's an example of how you might right your `create()` action to comply with a
 
 var UserController = {
   create: {
-    
-    // Marshal the request 
+
+    // Marshal the request
     request   : {
       id    : 'int',
       name  : 'string'
     },
-    
+
     // Marshal the response to use the predetermined API
     response  : {
       user_id             : 'user.id'
@@ -372,7 +366,7 @@ var UserController = {
       user_email_address  : 'user.email'
       friends             : 'user.friends'
     },
-    
+
     // Define an arbitrarily named attribute that will be used in response
     // and the function that will populate it
     // The function will be called with the entire request object as the first parameter
@@ -390,7 +384,7 @@ The model validation also uses anchor:
 // User.js
 var User = {
   adapter: 'mongo',
-  
+
   attributes: {
     id: 'int',
     name: 'string',
@@ -401,22 +395,22 @@ var User = {
       email: 'string'
     }]
   },
-  
+
   // Create a user, but also create the permission for it to manage itself
   create: function (values,cb) {
-    
+
     async.auto({
-      
+
       // Create the user itself
       user: User.create(values).done,
-      
+
       // Grant permission for the user to administer itself
       permission: Permission.create({
         targetModel : 'user',
         targetId    : values.id,
         UserId      : values.id,
       }).done
-      
+
     ], function (err, results) {
       cb(err, results.user);
     });
@@ -451,4 +445,3 @@ The above copyright notice and this permission notice shall be included in all c
 THE SOFTWARE IS PROVIDED “AS IS”, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 [![githalytics.com alpha](https://cruel-carlota.pagodabox.com/18e6e2459aed1edbdee85d77d63b623b "githalytics.com")](http://githalytics.com/balderdashy/anchor)
-

@@ -13,7 +13,7 @@ var sanitize = require('validator').sanitize;
  */
 
 module.exports = function (entity) {
-	return new Anchor(entity);
+	return new Lusitania(entity);
 };
 
 
@@ -21,14 +21,14 @@ module.exports = function (entity) {
 
 
 /**
- * Constructor of individual instance of Anchor
- * Specify the function, object, or list to be anchored
+ * Constructor of individual instance of Lusitania
+ * Specify the function, object, or list to be lusitaniaed
  */
 
-function Anchor (entity) {
+function Lusitania (entity) {
 	if (util.isFunction(entity)) {
 		this.fn = entity;
-		throw new Error ('Anchor does not support functions yet!');
+		throw new Error ('Lusitania does not support functions yet!');
 	}
 	else this.data = entity;
 
@@ -43,7 +43,7 @@ function Anchor (entity) {
  * Built-in data type rules
  */
 
-Anchor.prototype.rules = require('./lib/match/rules');
+Lusitania.prototype.rules = require('./lib/match/rules');
 
 
 
@@ -53,7 +53,7 @@ Anchor.prototype.rules = require('./lib/match/rules');
  * Enforce that the data matches the specified ruleset
  */
 
-Anchor.prototype.to = function (ruleset, context) {
+Lusitania.prototype.to = function (ruleset, context) {
 
 	var errors = [];
 
@@ -68,12 +68,12 @@ Anchor.prototype.to = function (ruleset, context) {
 
 			// Use deep match to descend into the collection and verify each item and/or key
 			// Stop at default maxDepth (50) to prevent infinite loops in self-associations
-			errors = errors.concat(Anchor.match.type.call(context, this.data, ruleset['type']));
+			errors = errors.concat(Lusitania.match.type.call(context, this.data, ruleset['type']));
 		}
 
 		// Validate a non-type rule
 		else {
-			errors = errors.concat(Anchor.match.rule.call(context, this.data, rule, ruleset[rule]));
+			errors = errors.concat(Lusitania.match.rule.call(context, this.data, rule, ruleset[rule]));
 		}
 	}
 
@@ -86,7 +86,7 @@ Anchor.prototype.to = function (ruleset, context) {
 	else return false;
 
 };
-Anchor.prototype.hasErrors = Anchor.prototype.to;
+Lusitania.prototype.hasErrors = Lusitania.prototype.to;
 
 
 
@@ -116,7 +116,7 @@ Anchor.prototype.hasErrors = Anchor.prototype.to;
 
 	}
  *
- * Adapter developers would be able to use Anchor.prototype.cast()
+ * Adapter developers would be able to use Lusitania.prototype.cast()
  * to declaritively define these type coercions.
 
  * Down the line, we could take this further for an even nicer API,
@@ -124,7 +124,7 @@ Anchor.prototype.hasErrors = Anchor.prototype.to;
  *
  */
 
-Anchor.prototype.cast = function (ruleset) {
+Lusitania.prototype.cast = function (ruleset) {
 	todo();
 };
 
@@ -135,7 +135,7 @@ Anchor.prototype.cast = function (ruleset) {
  * Coerce the data to the specified ruleset no matter what
  */
 
-Anchor.prototype.hurl = function (ruleset) {
+Lusitania.prototype.hurl = function (ruleset) {
 
 	// Iterate trough given data attributes
 	// to check if they exist in the ruleset
@@ -156,7 +156,7 @@ Anchor.prototype.hurl = function (ruleset) {
 
 	// Once we make sure that attributes match
 	// we can just proceed to deepMatch
-	Anchor.match(this.data, ruleset, this);
+	Lusitania.match(this.data, ruleset, this);
 };
 
 
@@ -167,7 +167,7 @@ Anchor.prototype.hurl = function (ruleset) {
  * Specify default values to automatically populated when undefined
  */
 
-Anchor.prototype.defaults = function (ruleset) {
+Lusitania.prototype.defaults = function (ruleset) {
 	todo();
 };
 
@@ -185,7 +185,7 @@ Anchor.prototype.defaults = function (ruleset) {
  * @param {Object|Function}	definition
  */
 
-Anchor.prototype.define = function (name, definition) {
+Lusitania.prototype.define = function (name, definition) {
 
 	// check to see if we have an dictionary
 	if ( util.isObject(name) ) {
@@ -198,7 +198,7 @@ Anchor.prototype.define = function (name, definition) {
 		}
 
 		// add the new custom data types
-		util.extend(Anchor.prototype.rules, name);
+		util.extend(Lusitania.prototype.rules, name);
 
 		return this;
 
@@ -207,7 +207,7 @@ Anchor.prototype.define = function (name, definition) {
 	if ( util.isFunction(definition) && util.isString(name) ) {
 
 		// Add a single data type
-		Anchor.prototype.rules[name] = definition;
+		Lusitania.prototype.rules[name] = definition;
 
 		return this;
 
@@ -224,7 +224,7 @@ Anchor.prototype.define = function (name, definition) {
  * Specify custom ruleset
  */
 
-Anchor.prototype.as = function (ruleset) {
+Lusitania.prototype.as = function (ruleset) {
 	todo();
 };
 
@@ -235,7 +235,7 @@ Anchor.prototype.as = function (ruleset) {
  * Specify named arguments and their rulesets as an object
  */
 
-Anchor.prototype.args = function (args) {
+Lusitania.prototype.args = function (args) {
 	todo();
 };
 
@@ -246,7 +246,7 @@ Anchor.prototype.args = function (args) {
  * Specify each of the permitted usages for this function
  */
 
-Anchor.prototype.usage = function () {
+Lusitania.prototype.usage = function () {
 	var usages = util.toArray(arguments);
 	todo();
 };
@@ -258,7 +258,7 @@ Anchor.prototype.usage = function () {
  * Deep-match a complex collection or model against a schema
  */
 
-Anchor.match = require('./lib/match');
+Lusitania.match = require('./lib/match');
 
 
 
@@ -268,7 +268,7 @@ Anchor.match = require('./lib/match');
  * Expose `define` so it can be used globally
  */
 
-module.exports.define = Anchor.prototype.define;
+module.exports.define = Lusitania.prototype.define;
 
 
 

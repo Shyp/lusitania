@@ -1,8 +1,8 @@
 {
-  "name": "anchor",
+  "name": "lusitania",
   "version": "0.10.2",
   "description": "Recursive validation library with support for objects and lists",
-  "homepage": "http://sailsjs.org",
+  "homepage": "https://api.shyp.com",
   "keywords": [
     "validation",
     "recursive-validator",
@@ -25,9 +25,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/balderdashy/anchor.git"
+    "url": "git://github.com/Shyp/lusitania.git"
   },
-  "author": "Mike McNeil",
+  "author": "Shyp Engineering",
   "license": "MIT",
   "readmeFilename": "README.md",
   "dependencies": {
@@ -36,6 +36,6 @@
   },
   "devDependencies": {
     "async": "~0.2.10",
-    "mocha": "1.9.x"
+    "mocha": "^2"
   }
 }

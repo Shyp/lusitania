@@ -1,5 +1,5 @@
 var _ = require('lodash');
-var anchor = require('../index.js');
+var lusitania = require('../index.js');
 var testRules = require('./util/testRules.js');
 
 

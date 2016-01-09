@@ -1,13 +1,13 @@
 var _ = require('lodash');
-var anchor = require('../index.js');
+var lusitania = require('../index.js');
 var testType = require('./util/testType.js');
 
 
 
 describe('basic rules', function() {
 
-	it('should create an anchor object in naive usage',function () {
-		anchor('foo');
+	it('should create an lusitania object in naive usage',function () {
+		lusitania('foo');
 		return true;
 	});
 
