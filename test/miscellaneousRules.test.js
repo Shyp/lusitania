@@ -1,8 +1,8 @@
+var should = require('should');
 var _ = require('lodash');
+
 var lusitania = require('../index.js');
 var testRules = require('./util/testRules.js');
-
-
 
 describe('miscellaneous rules', function() {
 
@@ -10,7 +10,17 @@ describe('miscellaneous rules', function() {
     it (' should support "max" rule ', function () {
       return testRules({
         max: 3
-      },2,5);
+      }, 2, 5);
+    });
+
+    it('should return a good error message', function() {
+      var context = {
+        validation: 'day',
+      };
+      l = lusitania(27);
+      result = l.to({ type: 'integer', required: true, min: 0, max: 24 }, context);
+      result.should.be.instanceof(Error);
+      result.message.should.equal('Invalid day. Input failed max validation: 27');
     });
   });
 

@@ -60,8 +60,7 @@ Lusitania.prototype.to = function (ruleset, context) {
       // Stop at default maxDepth (50) to prevent infinite loops in self-associations
       result = Lusitania.match.type.call(context, this.data, ruleset.type, null, validation);
       if (result) {
-        error = result;
-        break;
+        return result;
       }
     }
 
@@ -69,8 +68,7 @@ Lusitania.prototype.to = function (ruleset, context) {
     else {
       result = Lusitania.match.rule.call(context, this.data, rule, ruleset[rule]);
       if (result) {
-        error = result;
-        break;
+        return result;
       }
     }
   }

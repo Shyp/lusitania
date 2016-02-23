@@ -13,7 +13,7 @@ module.exports = function testRules (rules, example, nonexample) {
   // Should be falsy
   exampleOutcome = lusitania(example).to(rules);
 
-  // Should be an array
+  // Should be an Error
   nonexampleOutcome = lusitania(nonexample).to(rules);
 
   if (exampleOutcome) {
@@ -21,7 +21,7 @@ module.exports = function testRules (rules, example, nonexample) {
   }
   if (! (nonexampleOutcome instanceof Error)) {
     return gotErrors('Invalid input (' + nonexample + ') allowed through.',
-    rules, nonexample);
+      rules, nonexample);
   }
 
   function gotErrors (errMsg, err, data) {
