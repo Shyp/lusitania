@@ -1,3 +1,5 @@
+var util = require('util');
+
 var should = require('should');
 var _ = require('lodash');
 
@@ -5,6 +7,28 @@ var lusitania = require('../index.js');
 var testRules = require('./util/testRules.js');
 
 describe('miscellaneous rules', function() {
+  describe('required', function() {
+    it('fails for various empty inputs', function() {
+      var emptyInputs = [
+        '',
+        false,
+        null,
+        undefined,
+        [],
+        // FWIW 0 is an allowable value
+      ];
+      var context = {
+        validation: 'email',
+      };
+      for (var i = 0; i < emptyInputs.length; i++) {
+        var val = emptyInputs[i];
+        l = lusitania(val);
+        result = l.to({ required: true }, context);
+        result.should.be.instanceof(Error, util.inspect(val) + " should fail required validation, but didn't");
+        result.message.should.equal('No email was provided. Please provide a email');
+      }
+    });
+  });
 
   describe ('max/min',function () {
     it (' should support "max" rule ', function () {
